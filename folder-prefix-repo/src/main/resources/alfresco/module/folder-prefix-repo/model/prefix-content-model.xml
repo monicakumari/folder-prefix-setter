@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model name="evp:prefixContentModel" xmlns="http://www.alfresco.org/model/dictionary/1.0">
+
+    <!-- Optional meta-data about the model -->
+    <description>Eisenvault Prefix Model</description>
+    <author>EisenVault Team</author>
+    <version>1.0</version>
+
+    <imports>
+        <!-- Import Alfresco Dictionary Definitions -->
+        <import uri="http://www.alfresco.org/model/dictionary/1.0" prefix="d"/>
+    </imports>
+
+    <!-- Custom namespace for the ACME company -->
+    <namespaces>
+        <namespace uri="http://prefix.eisenvault.net/model/content/1.0" prefix="evp"/>
+    </namespaces>
+
+   <aspects>   
+      <aspect name="evp:folderPrefix">
+         <title>Folder Prefix</title>
+         <properties>
+            <property name="evp:prefix">
+            	<title>Prefix</title>
+            	<type>d:text</type>
+            </property>
+         </properties>
+      </aspect>   
+   </aspects>
+   
+</model>

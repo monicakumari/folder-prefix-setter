@@ -1,0 +1,63 @@
+<alfresco-config>
+	
+	<config evaluator="string-compare" condition="DocumentLibrary">
+		<aspects>
+			<!-- Aspects that a user can see -->
+			<visible>
+				<aspect name="evp:folderPrefix" />
+			</visible>
+		</aspects>
+	</config>
+	
+	<config evaluator="aspect" condition="evp:folderPrefix">
+		<forms>
+			<form>
+				<field-visibility>
+					<show id="evp:prefix" />
+				</field-visibility>
+				<appearance>
+					<field id="evp:prefix" label-id="prop.evp_prefix" read-only="true"/>
+				</appearance>
+			</form>
+		</forms>
+	</config>
+	
+    <config evaluator="string-compare" condition="DocLibActions">
+        <actions>
+	         <action id="prefix-setter" type="javascript">
+	            <param name="function">onActionFormDialog</param>
+	            <param name="itemKind">action</param>
+	            <param name="itemId">prefix-setter</param>
+	            <param name="mode">create</param>
+	            <param name="destination">{node.nodeRef}</param>
+	            <param name="successMessage">message.set.folder.prefix.success</param>
+	            <param name="failureMessage">message.set.folder.prefix.failure</param>
+				<evaluator>evaluator.doclib.user.isadmin</evaluator>
+	         </action>	         
+        </actions>
+        <actionGroups>
+            <actionGroup id="folder-browse">
+                <action index="400" id="prefix-setter" label="actions.folder.prefix" icon="folder-prefix-icon" />
+            </actionGroup>
+            <actionGroup id="folder-details">
+                <action index="400" id="prefix-setter" label="actions.folder.prefix" icon="folder-prefix-icon" />
+            </actionGroup>
+        </actionGroups>        
+    </config>
+     
+   <config evaluator="string-compare" condition="prefix-setter">
+      <forms>
+         <form>
+            <field-visibility>
+ 				<show id="name-prefix" />
+            </field-visibility>
+            <appearance>
+               <field id="name-prefix" label-id="label.set.prefix">
+                   <control template="/org/alfresco/components/form/controls/textfield.ftl" />
+               </field>
+            </appearance>
+         </form>
+      </forms>
+   </config>
+ 
+</alfresco-config>
