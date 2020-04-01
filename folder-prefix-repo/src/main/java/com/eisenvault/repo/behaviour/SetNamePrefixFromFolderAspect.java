@@ -37,17 +37,20 @@ public class SetNamePrefixFromFolderAspect implements OnCreateNodePolicy, OnUpda
 	}
 
 	@Override
-	public void onCreateNode(ChildAssociationRef childAssocRef) {		
-		setPrefixToName(childAssocRef.getParentRef(), childAssocRef.getChildRef(), 
-				nodeService.getProperty(childAssocRef.getChildRef(), ContentModel.PROP_NAME).toString());
+	public void onCreateNode(ChildAssociationRef childAssocRef) {	
+		if(nodeService.exists(childAssocRef.getChildRef())) {
+				setPrefixToName(childAssocRef.getParentRef(), childAssocRef.getChildRef(), 
+						nodeService.getProperty(childAssocRef.getChildRef(), ContentModel.PROP_NAME).toString());
+		}
 	}
 	
 	@Override
 	public void onUpdateProperties(NodeRef nodeRef, Map<QName, Serializable> before, Map<QName, Serializable> after) {		
-		
-		if(before.get(ContentModel.PROP_NAME) != null && after.get(ContentModel.PROP_NAME) != before.get(ContentModel.PROP_NAME)) {
-			setPrefixToName(nodeService.getPrimaryParent(nodeRef).getParentRef(), nodeRef, after.get(ContentModel.PROP_NAME).toString());
-		}		
+		if(nodeService.exists(nodeRef)) {
+			if(before.get(ContentModel.PROP_NAME) != null && after.get(ContentModel.PROP_NAME) != before.get(ContentModel.PROP_NAME)) {
+				setPrefixToName(nodeService.getPrimaryParent(nodeRef).getParentRef(), nodeRef, after.get(ContentModel.PROP_NAME).toString());
+			}
+		}
 	}
 	
 	public void setPrefixToName(NodeRef parentNodeRef, NodeRef nodeRef, String fileName) {
